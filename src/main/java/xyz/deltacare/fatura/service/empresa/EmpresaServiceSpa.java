@@ -1,4 +1,4 @@
-package xyz.deltacare.fatura.service;
+package xyz.deltacare.fatura.service.empresa;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,6 +64,9 @@ public class EmpresaServiceSpa implements EmpresaService {
                     .bairro(elemento.path("bairro").toString().replace("\"",""))
                     .uf(elemento.path("uf").toString().replace("\"",""))
                     .cep(elemento.path("cep").toString().replace("\"",""))
+                    .qtdBeneficiarios(elemento.path("beneficiarios").size())
+                    .nomePlano(elemento.path("produtos").get(0).path("plano").toString().replace("\"",""))
+                    .nomeSubPlano(elemento.path("produtos").get(0).path("subplano").toString().replace("\"",""))
                     .build();
             empresasDto.add(empresaDto);
         }

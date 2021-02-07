@@ -33,34 +33,27 @@ public class EmpresaDto implements Serializable {
     @Size(max = 255)
     private String nome;
 
-    @NotNull
     @Email
     @Size(max = 255)
     private String email;
 
-    @NotNull
-    @NotEmpty
     @Size(max = 255)
     private String logradouro;
 
-    @NotNull
-    @NotEmpty
     @Size(max = 255)
     private String bairro;
 
-    @NotNull
-    @NotEmpty
     @Size(max = 255)
     private String uf;
 
-    @NotNull
-    @NotEmpty
     @Size(max = 255)
     private String cep;
 
-    @NotNull
-    @NotEmpty
     @JsonProperty("faturas")
     private List<FaturaDto> faturas;
+
+    private int qtdBeneficiarios;
+    private String nomePlano;
+    private String nomeSubPlano;
 
 }

@@ -1,6 +1,7 @@
-package xyz.deltacare.fatura.service;
+package xyz.deltacare.fatura.service.fatura;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -21,8 +22,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import xyz.deltacare.fatura.domain.Empresa;
 import xyz.deltacare.fatura.domain.Fatura;
-import xyz.deltacare.fatura.dto.EmpresaDto;
 
 @Service
 public class FaturaServiceDocCaelum implements FaturaServiceDoc {
@@ -38,7 +39,7 @@ public class FaturaServiceDocCaelum implements FaturaServiceDoc {
 
     private final Logger logger = LoggerFactory.getLogger(FaturaServiceDocCaelum.class);
 
-    public Fatura criar(EmpresaDto empresaDto) {
+    public Fatura criar(Empresa empresa, BigDecimal valorBoleto) {
 
         String documento = "";
         try {
@@ -72,21 +73,21 @@ public class FaturaServiceDocCaelum implements FaturaServiceDoc {
                     .comNossoNumero("9000206");
 
             Endereco enderecoPagador = Endereco.novoEndereco()
-                    .comLogradouro(empresaDto.getLogradouro())
-                    .comBairro(empresaDto.getBairro())
-                    .comCep(empresaDto.getCep())
-                    .comCidade(empresaDto.getUf())
-                    .comUf(empresaDto.getUf());
+                    .comLogradouro(empresa.getLogradouro())
+                    .comBairro(empresa.getBairro())
+                    .comCep(empresa.getCep())
+                    .comCidade(empresa.getUf())
+                    .comUf(empresa.getUf());
 
             //Quem paga o boleto
             Pagador pagador = Pagador.novoPagador()
-                    .comNome(empresaDto.getNome())
-                    .comDocumento(empresaDto.getCnpj())
+                    .comNome(empresa.getNome())
+                    .comDocumento(empresa.getCnpj())
                     .comEndereco(enderecoPagador);
 
             Banco banco = new BancoDoBrasil();
 
-            String instrucao1 = "CÓDIGO DA EMPRESA: " + empresaDto.getCodigo();
+            String instrucao1 = "CÓDIGO DA EMPRESA: " + empresa.getCodigo();
             String instrucao2 = "APÓS VENCIMENTO: 2% DE MULTA + 0,033% DE JUROS AO DIA (SOBRE A PARCELA)";
             String instrucao3 = "SR.CAIXA, NÃO RECEBER APÓS O ÚLTIMO DIA ÚTIL DO MÊS.";
 
@@ -95,14 +96,14 @@ public class FaturaServiceDocCaelum implements FaturaServiceDoc {
                     .comDatas(datas)
                     .comBeneficiario(beneficiario)
                     .comPagador(pagador)
-                    .comValorBoleto("200.00")
+                    .comValorBoleto(valorBoleto.toString())
                     .comNumeroDoDocumento("1234")
                     .comInstrucoes(instrucao1, instrucao2, instrucao3, "", "")
                     .comLocaisDePagamento("INTERNET BANKING", "LOTÉRICA");
 
             GeradorDeBoleto gerador = new GeradorDeBoleto(boleto);
 
-            String nomeArquivo = empresaDto.getCodigo() + "-" + mesCorrente + "-" + anoCorrente + ".pdf";
+            String nomeArquivo = empresa.getCodigo() + "-" + mesCorrente + "-" + anoCorrente + ".pdf";
 
             // Para gerar um boleto em PDF
             gerador.geraPDF(nomeArquivo);
@@ -110,8 +111,8 @@ public class FaturaServiceDocCaelum implements FaturaServiceDoc {
             File file = new File(nomeArquivo);
             documento = endpointUrl + "/" + bucketName + "/" + nomeArquivo;
             subirFatura(nomeArquivo, file);
-            logger.info("Fatura " + nomeArquivo + " criada.");
-            file.delete();
+            logger.info("Fatura " + nomeArquivo + " criada para a empresa " + empresa.getCodigo() + ".");
+            boolean delete = file.delete();
 
         } catch (AmazonServiceException ase) {
             logger.info("Caught an AmazonServiceException from GET requests, rejected reasons:");
@@ -132,6 +133,7 @@ public class FaturaServiceDocCaelum implements FaturaServiceDoc {
         return Fatura.builder()
                 .documento(documento)
                 .mes(mesCorrente)
+                .valor(valorBoleto)
                 .build();
 
     }

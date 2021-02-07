@@ -1,11 +1,10 @@
-package xyz.deltacare.fatura.service;
+package xyz.deltacare.fatura.service.empresa;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.data.domain.Pageable;
 import xyz.deltacare.fatura.domain.Empresa;
 import xyz.deltacare.fatura.dto.EmpresaDto;
 
-import java.util.Iterator;
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface EmpresaService {

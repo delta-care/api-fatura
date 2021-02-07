@@ -2,6 +2,7 @@ CREATE TABLE fatura
 (
     id                   INTEGER AUTO_INCREMENT,
     mes                  VARCHAR(255) NOT NULL,
+    valor                DECIMAL(15,2),
     documento            VARCHAR(255) NOT NULL,
     empresa_id           INTEGER NOT NULL,
     PRIMARY KEY (id),

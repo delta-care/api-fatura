@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import xyz.deltacare.fatura.dto.EmpresaDto;
-import xyz.deltacare.fatura.service.EmpresaService;
+import xyz.deltacare.fatura.service.empresa.EmpresaService;
 
 import java.util.List;
 

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -20,6 +21,7 @@ public class Fatura {
 
     private String mes;
     private String documento;
+    private BigDecimal valor;
 
     @ManyToOne
     @JoinColumn(name = "empresa_id")
