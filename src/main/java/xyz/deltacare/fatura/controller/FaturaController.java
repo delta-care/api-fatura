@@ -1,7 +1,6 @@
 package xyz.deltacare.fatura.controller;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -13,10 +12,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/faturas")
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class FaturaController implements FaturaControllerDocs {
 
     private final EmpresaService service;
+
+    public FaturaController(@Qualifier("empresaServiceSpa") EmpresaService service) {
+        this.service = service;
+    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

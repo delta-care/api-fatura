@@ -20,7 +20,6 @@ public class Fatura {
 
     private String mes;
     private String documento;
-    private String pago;
 
     @ManyToOne
     @JoinColumn(name = "empresa_id")

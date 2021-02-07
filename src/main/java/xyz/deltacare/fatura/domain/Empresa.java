@@ -22,6 +22,11 @@ public class Empresa {
     private String codigo;
     private String cnpj;
     private String nome;
+    private String email;
+    private String logradouro;
+    private String bairro;
+    private String uf;
+    private String cep;
 
     @OneToMany(mappedBy = "empresa")
     private Set<Fatura> faturas;

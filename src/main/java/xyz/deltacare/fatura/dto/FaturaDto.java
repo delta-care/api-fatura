@@ -22,11 +22,7 @@ public class FaturaDto implements Serializable {
     @NotEmpty
     private String documento;
 
-    @NotNull
-    @NotEmpty
-    private String pago;
-
-    @NotNull
-    @NotEmpty
-    private String pago;
+    //@NotNull
+    //@NotEmpty
+    //private String pago;
 }
