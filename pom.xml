@@ -175,9 +175,13 @@
                 <sonar.exclusions>
                     src/main/java/**/FaturaApplication.java,
                     src/main/java/**/configuration/**,
+                    src/main/java/**/controller/**,
                     src/main/java/**/domain/**,
                     src/main/java/**/dto/**,
+                    src/main/java/**/exception/**,
                     src/main/java/**/mapper/**
+                    src/main/java/**/repository/**
+                    src/main/java/**/service/**
                 </sonar.exclusions>
             </properties>
             <build>
