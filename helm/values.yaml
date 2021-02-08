@@ -1,0 +1,12 @@
+# app.profile, k8s.namespace e image.tag definidos via jenkins
+app:
+  name: api-fatura
+  profile:
+k8s:
+  namespace:
+image:
+  repository: deltacare/api-fatura 
+  tag:
+service:
+  type: ClusterIP
+  port: 8080

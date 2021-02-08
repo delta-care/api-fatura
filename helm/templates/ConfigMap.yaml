@@ -1,0 +1,16 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{.Values.app.name}}
+data:
+  application-prd.yml: |-
+    spring:
+      datasource:
+        url: jdbc:mysql://fatura-prd.cacvwucgqxal.us-east-2.rds.amazonaws.com/fatura
+        username: admin
+        password: admin123
+      flyway:
+        url: jdbc:mysql://fatura-prd.cacvwucgqxal.us-east-2.rds.amazonaws.com
+        user: admin
+        password: admin123
+        schemas: fatura
