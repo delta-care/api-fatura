@@ -3,8 +3,47 @@ apiVersion: v1
 metadata:
   name: {{.Values.app.name}}
 data:
-  application-prd.yml: |-
+  application.yml: |-
     spring:
+      profiles: dev
+      datasource:
+        url: jdbc:mysql://fatura-dev.cacvwucgqxal.us-east-2.rds.amazonaws.com/fatura
+        username: admin
+        password: admin123
+      flyway:
+        url: jdbc:mysql://fatura-dev.cacvwucgqxal.us-east-2.rds.amazonaws.com
+        user: admin
+        password: admin123
+        schemas: fatura
+      jpa:
+        show-sql: true
+        properties:
+          hibernate:
+            format_sql: true
+      servlet:
+        multipart:
+          max-file-size: 100MB
+          max-request-size: 100MB
+    aws:
+      endpointUrl: https://s3.us-east-2.amazonaws.com
+      accessKey: AKIAVNJ4VXNKWLLXNSB7
+      secretKey: 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
+      bucketName: dc-boletos-dev
+    logging:
+      level:
+        root: INFO
+    app:
+      api-produto:
+        protocol: http
+        uri: api-produto
+        port: 8080
+      api-empresa:
+        protocol: http
+        uri: api-empresa
+        port: 8080     
+    ---
+    spring:
+      profiles: prd
       datasource:
         url: jdbc:mysql://fatura-prd.cacvwucgqxal.us-east-2.rds.amazonaws.com/fatura
         username: admin
@@ -14,3 +53,29 @@ data:
         user: admin
         password: admin123
         schemas: fatura
+      jpa:
+        show-sql: true
+        properties:
+          hibernate:
+            format_sql: false
+      servlet:
+        multipart:
+          max-file-size: 100MB
+          max-request-size: 100MB
+    aws:
+      endpointUrl: https://s3.us-east-2.amazonaws.com
+      accessKey: AKIAVNJ4VXNKWLLXNSB7
+      secretKey: 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
+      bucketName: dc-boletos-prd
+    logging:
+      level:
+        root: INFO   
+    app:
+      api-produto:
+        protocol: http
+        uri: api-produto
+        port: 8080
+      api-empresa:
+        protocol: http
+        uri: api-empresa
+        port: 8080   
