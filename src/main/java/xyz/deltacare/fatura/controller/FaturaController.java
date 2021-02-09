@@ -1,5 +1,7 @@
 package xyz.deltacare.fatura.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +28,8 @@ public class FaturaController implements FaturaControllerDocs {
     @Value( "${api.produto.port}" )
     private String port;
 
+    private final Logger logger = LoggerFactory.getLogger(FaturaController.class);
+
     public FaturaController(@Qualifier("empresaServiceSpa") EmpresaService service) {
         this.service = service;
     }
@@ -39,9 +43,9 @@ public class FaturaController implements FaturaControllerDocs {
             @RequestParam(value="nome", required = false, defaultValue = "") String nome,
             @RequestParam(value="cnpj", required = false, defaultValue = "") String cnpj
     ) {
-        System.out.println(">>>>>>>>>>> " + protocol);
-        System.out.println(">>>>>>>>>>> " + uri);
-        System.out.println(">>>>>>>>>>> " + port);
+        logger.info(">>>>>>>>>>> " + protocol);
+        logger.info(">>>>>>>>>>> " + uri);
+        logger.info(">>>>>>>>>>> " + port);
         Pageable pageable = PageRequest.of(page, limit);
         return service.pesquisar(pageable, id, cnpj, nome);
     }
