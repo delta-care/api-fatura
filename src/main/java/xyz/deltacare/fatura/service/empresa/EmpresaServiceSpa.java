@@ -4,9 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,9 @@ public class EmpresaServiceSpa implements EmpresaService {
 
     private final EmpresaRepository empresaRepository;
     private static final EmpresaMapper empresaMapper = EmpresaMapper.INSTANCE;
-    private final Logger logger = LoggerFactory.getLogger(EmpresaServiceSpa.class);
+    @Value("${api.empresa.protocol}") private String protocol;
+    @Value("${api.empresa.uri}") private String uri;
+    @Value("${api.empresa.port}") private String port;
 
     @Override
     //@Cacheable(value="empresa", key="#root.args")
@@ -43,7 +44,7 @@ public class EmpresaServiceSpa implements EmpresaService {
     @SneakyThrows
     public List<EmpresaDto> pesquisarApi(Pageable pageable, String id, String cnpj, String nome)  {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8082/api/v1/empresas/?" +
+        String url = protocol + "://" + uri + ":" + port + "/api/v1/empresas/?" +
                 "page=" + pageable.getPageNumber() + "&" +
                 "limit=" + pageable.getPageSize();
 

@@ -3,6 +3,7 @@ package xyz.deltacare.fatura.service.produto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,15 @@ import java.util.List;
 
 @Service
 public class ProdutoServiceSpa implements ProdutoService {
+
+    @Value("${api.produto.protocol}") private String protocol;
+    @Value("${api.produto.uri}") private String uri;
+    @Value("${api.produto.port}") private String port;
+
     @Override
     public List<ProdutoDto> pesquisarApi(Pageable pageable, String codigo, String nome) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "http://localhost:8083/api/v1/produtos/?" +
+        String url = protocol + "://" + uri + ":" + port + "/api/v1/produtos/?" +
                 "page=" + pageable.getPageNumber() + "&" +
                 "limit=" + pageable.getPageSize();
 
