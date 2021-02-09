@@ -8,4 +8,6 @@ spring:
   cloud:
     kubernetes:
       config:
-        name: api-fatura  
+        name: api-fatura
+      reload:
+        enabled: true
