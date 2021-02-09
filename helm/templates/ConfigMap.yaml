@@ -32,12 +32,12 @@ data:
     logging:
       level:
         root: INFO
-    app:
-      api-produto:
+    api:
+      produto:
         protocol: http
         uri: api-produto
         port: 8080
-      api-empresa:
+      empresa:
         protocol: http
         uri: api-empresa
         port: 8080     
@@ -72,9 +72,9 @@ data:
         root: INFO   
     app:
       api-produto:
-        protocol: http
-        uri: api-produto
-        port: 8080
+        protocol: https
+        uri: api-produtos
+        port: 8081
       api-empresa:
         protocol: http
         uri: api-empresa
