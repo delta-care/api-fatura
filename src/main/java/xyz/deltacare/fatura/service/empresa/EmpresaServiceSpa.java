@@ -52,10 +52,6 @@ public class EmpresaServiceSpa implements EmpresaService {
         String url = protocol + "://" + uri + ":" + port + "/api/v1/empresas/?" +
                 "page=" + pageable.getPageNumber() + "&" +
                 "limit=" + pageable.getPageSize();
-        logger.info(">>>>>>>>>>> " + protocol);
-        logger.info(">>>>>>>>>>> " + uri);
-        logger.info(">>>>>>>>>>> " + port);
-        logger.info(">>>>>>>>>>> " + url);
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response.getBody());
