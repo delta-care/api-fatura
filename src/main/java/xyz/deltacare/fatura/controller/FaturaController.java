@@ -28,8 +28,6 @@ public class FaturaController implements FaturaControllerDocs {
     @Value( "${api.produto.port}" )
     private String port;
 
-    private final Logger logger = LoggerFactory.getLogger(FaturaController.class);
-
     public FaturaController(@Qualifier("empresaServiceSpa") EmpresaService service) {
         this.service = service;
     }
@@ -43,9 +41,6 @@ public class FaturaController implements FaturaControllerDocs {
             @RequestParam(value="nome", required = false, defaultValue = "") String nome,
             @RequestParam(value="cnpj", required = false, defaultValue = "") String cnpj
     ) {
-        logger.info(">>>>>>>>>>> " + protocol);
-        logger.info(">>>>>>>>>>> " + uri);
-        logger.info(">>>>>>>>>>> " + port);
         Pageable pageable = PageRequest.of(page, limit);
         return service.pesquisar(pageable, id, cnpj, nome);
     }
