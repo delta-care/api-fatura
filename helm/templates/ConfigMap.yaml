@@ -70,12 +70,12 @@ data:
     logging:
       level:
         root: INFO   
-    app:
-      api-produto:
-        protocol: https
-        uri: api-produtos
-        port: 8081
-      api-empresa:
+    api:
+      produto:
+        protocol: http
+        uri: api-produto
+        port: 8080
+      empresa:
         protocol: http
         uri: api-empresa
-        port: 8080   
+        port: 8080  
