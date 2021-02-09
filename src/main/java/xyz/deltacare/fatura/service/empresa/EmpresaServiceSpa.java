@@ -3,11 +3,14 @@ package xyz.deltacare.fatura.service.empresa;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import xyz.deltacare.fatura.controller.FaturaController;
 import xyz.deltacare.fatura.domain.Empresa;
 import xyz.deltacare.fatura.dto.EmpresaDto;
 import xyz.deltacare.fatura.mapper.EmpresaMapper;
@@ -24,6 +27,7 @@ public class EmpresaServiceSpa implements EmpresaService {
 
     private final EmpresaRepository empresaRepository;
     private static final EmpresaMapper empresaMapper = EmpresaMapper.INSTANCE;
+    private final Logger logger = LoggerFactory.getLogger(EmpresaServiceSpa.class);
     @Value("${api.empresa.protocol}") private String protocol;
     @Value("${api.empresa.uri}") private String uri;
     @Value("${api.empresa.port}") private String port;
@@ -48,7 +52,10 @@ public class EmpresaServiceSpa implements EmpresaService {
         String url = protocol + "://" + uri + ":" + port + "/api/v1/empresas/?" +
                 "page=" + pageable.getPageNumber() + "&" +
                 "limit=" + pageable.getPageSize();
-
+        logger.info(">>>>>>>>>>> " + protocol);
+        logger.info(">>>>>>>>>>> " + uri);
+        logger.info(">>>>>>>>>>> " + port);
+        logger.info(">>>>>>>>>>> " + url);
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response.getBody());
