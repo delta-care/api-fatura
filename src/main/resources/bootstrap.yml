@@ -5,7 +5,7 @@ spring:
     name: api-fatura
   profiles:
     active: dev
-#  cloud:
-#    kubernetes:
-#      config:
-#        enabled: false
+  cloud:
+    kubernetes:
+      config:
+        name: api-fatura  
