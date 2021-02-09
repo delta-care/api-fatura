@@ -2,9 +2,7 @@ package xyz.deltacare.fatura.service.empresa;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +20,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class EmpresaServiceSpa implements EmpresaService {
 
     private final EmpresaRepository empresaRepository;
@@ -30,6 +27,10 @@ public class EmpresaServiceSpa implements EmpresaService {
     @Value("${api.empresa.protocol}") private String protocol;
     @Value("${api.empresa.uri}") private String uri;
     @Value("${api.empresa.port}") private String port;
+
+    public EmpresaServiceSpa(EmpresaRepository empresaRepository) {
+        this.empresaRepository = empresaRepository;
+    }
 
     @Override
     //@Cacheable(value="empresa", key="#root.args")
