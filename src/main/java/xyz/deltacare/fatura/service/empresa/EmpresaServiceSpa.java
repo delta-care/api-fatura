@@ -3,14 +3,12 @@ package xyz.deltacare.fatura.service.empresa;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import xyz.deltacare.fatura.controller.FaturaController;
 import xyz.deltacare.fatura.domain.Empresa;
 import xyz.deltacare.fatura.dto.EmpresaDto;
 import xyz.deltacare.fatura.mapper.EmpresaMapper;
@@ -27,7 +25,6 @@ public class EmpresaServiceSpa implements EmpresaService {
 
     private final EmpresaRepository empresaRepository;
     private static final EmpresaMapper empresaMapper = EmpresaMapper.INSTANCE;
-    private final Logger logger = LoggerFactory.getLogger(EmpresaServiceSpa.class);
     @Value("${api.empresa.protocol}") private String protocol;
     @Value("${api.empresa.uri}") private String uri;
     @Value("${api.empresa.port}") private String port;
@@ -37,7 +34,7 @@ public class EmpresaServiceSpa implements EmpresaService {
     }
 
     @Override
-    //@Cacheable(value="empresa", key="#root.args")
+    @Cacheable(value="fatura", key="#root.args")
     public List<EmpresaDto> pesquisar(Pageable pageable, String id, String cnpj, String nome) {
         return empresaRepository.findAll(pageable, id, cnpj, nome)
                 .stream()
@@ -56,7 +53,7 @@ public class EmpresaServiceSpa implements EmpresaService {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = mapper.readTree(response.getBody());
         Iterator<JsonNode> elementos = root.elements();
-        List<EmpresaDto> empresasDto = new ArrayList<EmpresaDto>();
+        List<EmpresaDto> empresasDto = new ArrayList<>();
 
         while(elementos.hasNext()) {
             JsonNode elemento = elementos.next();
@@ -86,8 +83,7 @@ public class EmpresaServiceSpa implements EmpresaService {
             return empresa.get();
         } else {
             Empresa empresaASalvar = empresaMapper.toModel(empresaDto);
-            Empresa empresaSalva = empresaRepository.save(empresaASalvar);
-            return empresaSalva;
+            return empresaRepository.save(empresaASalvar);
         }
     }
 
