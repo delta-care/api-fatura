@@ -17,14 +17,14 @@ podTemplate(
     node('deltacare') {
 
         def APP_NAME='api-fatura'
-        def APP_PROFILE='prd'
+        def APP_PROFILE='dev'
         def APP_VERSION
         def URL_REPO_GIT="https://github.com/delta-care/${APP_NAME}.git"
         def URL_REPO_CHART="http://deltacare-chartmuseum:8080"
         def URL_REPO_HPUSH="https://github.com/chartmuseum/helm-push.git"
         def IMAGE_NAME_DOCKER="deltacare/${APP_NAME}"
         def IMAGE_NAME_CHART="deltacare/${APP_NAME}"
-        def K8S_NAMESPACE='prd'
+        def K8S_NAMESPACE='dev'
         def OBJ_REPO_GIT
         
         stage('Checkout') {
@@ -38,7 +38,7 @@ podTemplate(
                 sh 'mvn clean package -D skipTests=true'
             }
         }
-        /*
+        
         stage('Unit Test') {
             container('maven') {
                 sh 'mvn test'
@@ -55,7 +55,7 @@ podTemplate(
                 waitForQualityGate abortPipeline: true
             }
         }
-        */
+        
         stage('Release') {
             container('docker') {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASS', usernameVariable: 'DOCKER_HUB_USER')]) {
