@@ -24,6 +24,14 @@ data:
         multipart:
           max-file-size: 100MB
           max-request-size: 100MB
+      cache:
+        type: redis
+        redis:
+          time-to-live: 30000
+      redis:
+        host: 3.128.159.68
+        port: 6379
+        password:
     aws:
       endpointUrl: https://s3.us-east-2.amazonaws.com
       accessKey: AKIAVNJ4VXNKWLLXNSB7
@@ -62,6 +70,14 @@ data:
         multipart:
           max-file-size: 100MB
           max-request-size: 100MB
+      cache:
+        type: redis
+        redis:
+          time-to-live: 30000
+      redis:
+        host: 3.128.159.68
+        port: 6379
+        password:
     aws:
       endpointUrl: https://s3.us-east-2.amazonaws.com
       accessKey: AKIAVNJ4VXNKWLLXNSB7
