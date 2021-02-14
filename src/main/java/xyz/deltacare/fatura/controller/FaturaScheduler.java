@@ -1,7 +1,6 @@
 package xyz.deltacare.fatura.controller;
 
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import xyz.deltacare.fatura.service.fatura.FaturaService;
