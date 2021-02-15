@@ -42,7 +42,7 @@ podTemplate(
                 sh 'mvn clean package -D skipTests=true'
             }
         }
-        /*
+        
         stage('Unit Test') {
             container('maven') {
                 sh 'mvn test'
@@ -59,11 +59,10 @@ podTemplate(
                 waitForQualityGate abortPipeline: true
             }
         }
-        */
         
         APP_VERSION = APP_VERSION + '-rc'
         
-        stage('Release') {
+        stage('Release Candidate') {
             container('docker') {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'DOCKER_HUB_PASS', usernameVariable: 'DOCKER_HUB_USER')]) {
                     sh "docker build -t ${IMAGE_NAME_DOCKER}:${APP_VERSION} ."
